@@ -4,7 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>강릉제일고 1학기 2회고사 학생 응시 정보</title>
+<title>1학기 2회고사 학생 응시 정보</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" async=""></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -307,7 +307,7 @@ code{background:#EEE8FA;color:#8070B8;padding:2px 6px;border-radius:4px;font-siz
 <div id="app">
   <div id="nav">
     <button id="nav-back" data-action="back" class="">←</button>
-    <div id="nav-title">강릉제일고 1학기 2회고사<br>학생 응시 정보</div>
+    <div id="nav-title"> 1학기 2회고사<br>학생 응시 정보</div>
   </div>
 
   <div id="content">
@@ -1713,7 +1713,7 @@ function myTimetablePrint(){
     '@media print{@page{size:A4 portrait;margin:8mm}}</style>'+
     '</head><body>'+
     '<div style="border-bottom:2pt solid #7060A8;padding-bottom:6pt;margin-bottom:14pt">'+
-      '<div style="font-size:9pt;color:#908898">강릉제일고 1학기 2회고사 학생 응시 정보</div>'+
+      '<div style="font-size:9pt;color:#908898"> 1학기 2회고사 학생 응시 정보</div>'+
       '<div style="font-size:16pt;font-weight:900;color:#1A1030">학생별 시간표</div>'+
     '</div>'+
     cardsHtml+
@@ -1987,11 +1987,11 @@ function cvPrint(){
     '</head><body>'+
     '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:2pt solid #9088C0;padding-bottom:8pt;margin-bottom:12pt">'+
       '<div>'+
-        '<div style="font-size:9pt;color:#908898">강릉제일고 1학기 2회고사 학생 응시 정보</div>'+
+        '<div style="font-size:9pt;color:#908898"> 1학기 2회고사 학생 응시 정보</div>'+
         '<div style="font-size:22pt;font-weight:900;color:#1A1030">'+gradeNum+'학년 '+clsNum+'반 응시현황</div>'+
         '<div style="font-size:11pt;color:#7060A8;margin-top:3pt">📅 '+dateVal+' &nbsp;·&nbsp; 총 '+students.length+'명</div>'+
       '</div>'+
-      '<div style="font-size:9pt;color:#B0A8C8;text-align:right">강릉제일고 교무부</div>'+
+      '<div style="font-size:9pt;color:#B0A8C8;text-align:right">AI 생성기반</div>'+
     '</div>'+
     '<table><thead><tr>'+
       '<th style="'+thS+';min-width:44pt">학번</th>'+
@@ -2156,7 +2156,7 @@ function makeSheet(s){
     s.students.forEach(st=>{const{grade,cls}=parseId(st['학번']);const key=grade&&cls?`${grade}학년 ${cls}반`:'기타';if(!groups[key])groups[key]=[];groups[key].push(st);});
     const keys=Object.keys(groups).sort((a,b)=>a.localeCompare(b,'ko',{numeric:true}));
     keys.forEach(k=>groups[k].sort((a,b)=>String(a['학번']).localeCompare(String(b['학번']),'ko',{numeric:true})));
-    const aoa=[['강릉제일고 1학기 2회고사 학생 응시 정보','','강릉제일고 교무부'],
+    const aoa=[['1학기 2회고사 학생 응시 정보','','AI 생성기반'],
       [`고사일: ${s.date}`,`교시: ${s.period}교시`,`과목: ${s.isSelf?'자습':s.subject}`,`방식: 본반/이동반`],[]];
     keys.forEach(k=>{aoa.push([k],['학번','이름']);groups[k].forEach(st=>aoa.push([st['학번'],st['이름']]));aoa.push([`소계: ${groups[k].length}명`],[]);});
     aoa.push([`총 인원: ${s.students.length}명`]);
@@ -2164,7 +2164,7 @@ function makeSheet(s){
   }
   const cfg=roomConfigs[s.room]||{cols:4,maxPerCol:7};
   const{grid,rows}=assignSeats(s.students,cfg.cols,cfg.maxPerCol);
-  const aoa=[['강릉제일고 1학기 2회고사 학생 응시 정보','','','강릉제일고 교무부'],
+  const aoa=[['1학기 2회고사 학생 응시 정보','','','AI 생성기반'],
     [`고사일: ${s.date}`,`교시: ${s.period}교시`,`과목: ${s.subject}${s.subjectCode?' (과목코드 : '+s.subjectCode+')':''}`,`고사실: ${s.room}`,`학년: ${s.grade||''}`],[],['← 칠판 / 앞 →'],[]];
   const hdr=[];for(let c=0;c<cfg.cols;c++) hdr.push(`${c+1}열`,'');
   aoa.push(hdr);
@@ -2179,14 +2179,14 @@ function makeSheet(s){
 function exportAll(){
   const wb=XLSX.utils.book_new();
   sessions.forEach(s=>{XLSX.utils.book_append_sheet(wb,makeSheet(s),`${s.date}_${s.period}교시_${s.subject}`.replace(/[\\\/\?\*\[\]\:]/g,'_').slice(0,31));});
-  XLSX.writeFile(wb,'강릉제일고_좌석배치도_전체.xlsx');
+  XLSX.writeFile(wb,'좌석배치도_전체.xlsx');
 }
 function exportCurrent(){
   if(activeIdx<0) return;
   const s=sessions[activeIdx];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,makeSheet(s),`${s.date}_${s.period}교시_${s.subject}`.replace(/[\\\/\?\*\[\]\:]/g,'_').slice(0,31));
-  XLSX.writeFile(wb,`강릉제일고_${s.subject}_${s.date}.xlsx`);
+  XLSX.writeFile(wb,`_${s.subject}_${s.date}.xlsx`);
 }
 function printCurrent(){
   if(activeIdx<0) return;
@@ -2677,7 +2677,7 @@ function ttDayPage(date,withBreak,examOnly){
   return '<div style="'+(withBreak?'page-break-after:always;':'')+'padding:5mm 7mm 0">'+
     '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6pt">'+
       '<div style="font-size:16pt;font-weight:900;color:#3A2E66">'+date+'</div>'+
-      '<div style="font-size:8pt;color:#9A90BC">강릉제일고 1학기 2회고사 · '+label+'</div>'+
+      '<div style="font-size:8pt;color:#9A90BC"> 1학기 2회고사 · '+label+'</div>'+
     '</div>'+body+'</div>';
 }
 // 전체 5일 1장 (가로 A4) — 제목 없음, 최대 압축
@@ -2807,7 +2807,7 @@ function saveAppFile(){
       document.body.removeChild(ov);
       var html=document.documentElement.outerHTML;
       var replaced=html.replace(/const EMBEDDED=[\s\S]*?; \/\/ EMBEDDED_PLACEHOLDER/,'const EMBEDDED='+newVal+'; // EMBEDDED_PLACEHOLDER');
-      var fname='강릉제일고_학생응시정보'+(p1?'_암호화':'')+'.html';
+      var fname='_학생응시정보'+(p1?'_암호화':'')+'.html';
       var a=document.createElement('a');
       a.href=URL.createObjectURL(new Blob([replaced],{type:'text/html;charset=utf-8'}));
       a.download=fname;a.click();
